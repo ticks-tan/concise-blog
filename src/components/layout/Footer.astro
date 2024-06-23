@@ -1,0 +1,47 @@
+---
+import { cn } from "~/utils/tailwind";
+import { siteConfig } from "~/site.config";
+
+type Props = {
+	className?: string;
+};
+
+const { className } = Astro.props;
+const nowYear = new Date().getFullYear();
+---
+
+<footer
+	class={cn(
+		"min-h-16 flex flex-col items-center py-4 mt-auto w-full",
+		className
+	)}
+>
+	{/* 底部链接 */}
+	<div class="flex items-center justify-center gap-2">
+		<a href="/rss.xml" class="hover:underline text-center">
+			{"RSS"}
+		</a>
+		<div class="bg-on-background w-1.5 h-1.5 rounded-full"></div>
+		<a href="/friends" class="hover:underline text-center">{"友链"}</a>
+	</div>
+	{/* Coyright */}
+	<div class="flex items-center justify-center gap-4">
+		<span
+			>©{siteConfig.siteYear}{
+				nowYear > siteConfig.siteYear && `-${nowYear}`
+			}</span
+		>
+		<span>|</span>
+		<span
+			>Powered by <a
+				href="https://astro.build"
+				target="_blank"
+				class="hover:underline hover:font-bold">Astro</a
+			> and <a
+				href="https://ticks.cc/tick-tan/concise"
+				target="_blank"
+				class="hover:font-bold hover:underline">concise</a
+			></span
+		>
+	</div>
+</footer>

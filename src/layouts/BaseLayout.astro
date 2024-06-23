@@ -1,0 +1,27 @@
+---
+import BaseHeader from "~/components/BaseHead.astro";
+import ThemeProvider from "~/components/ThemeProvider.astro";
+import { siteConfig } from "~/site.config";
+import type { SiteMeta } from "~/types";
+
+interface Props {
+	meta: SiteMeta;
+}
+
+const {
+	meta: { title, description = siteConfig.description },
+} = Astro.props;
+---
+
+<html lang="zh" class="p-0 m-0 h-screen">
+	<BaseHeader title={title} description={description} />
+
+	<body class="bg-background text-on-background h-screen">
+		<ThemeProvider />
+		<div
+			class="min-h-screen flex flex-col w-screen mx-auto max-w-[64rem] items-center px-6 pb-10 pt-5 leading-relaxed sm:px-10"
+		>
+			<slot />
+		</div>
+	</body>
+</html>

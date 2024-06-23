@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FormattedTime from "~/components/FormattedTime.astro";
+import { cn } from "~/utils/tailwind";
+
+type Props = {
+	blogs: Array<CollectionEntry<"blog">>;
+	className?: string;
+};
+
+const { blogs, className } = Astro.props;
+---
+
+<ul class={cn("py-4 px-2 md:px-4 gap-y-3", className)}>
+	{
+		blogs.map((blog) => (
+			<li
+				class={cn(
+					"flex justify-between items-center py-1",
+					"border-b border-dotted hover:border-solid border-on-background/60"
+				)}
+			>
+				<a
+					class="text-lg hover:text-primary"
+					href={"/blog/" + blog.slug}
+				>
+					{blog.data.title}
+				</a>
+				<FormattedTime
+					date={blog.data.date}
+					class="text-on-background/70"
+				/>
+			</li>
+		))
+	}
+</ul>

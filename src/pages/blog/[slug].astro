@@ -1,0 +1,107 @@
+---
+export const prerender = true;
+
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getBlogCollection } from "~/utils/content";
+
+import BlogDetailLayout from "~/layouts/BlogDetailLayout.astro";
+
+export const getStaticPaths = (async () => {
+	const allBlogs = await getBlogCollection();
+	return allBlogs.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry },
+	}));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BlogDetailLayout blog={entry}>
+	<Content />
+</BlogDetailLayout>
+
+<style is:global>
+	html.dark .astro-code,
+	html.dark .astro-code span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+		/* Optional, if you also want font styles */
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
+	}
+	pre.astro-code {
+		background-color: rgb(var(--color-background));
+		border: solid 1px rgb(var(--color-on-background));
+	}
+	pre.astro-code span {
+		color: rgb(var(--color-on-background));
+	}
+</style>
+
+<script>
+	// 为代码块添加复制按钮
+	document.addEventListener("DOMContentLoaded", addCodeCopyButton);
+	function addCodeCopyButton() {
+		function copyTextContent(source: Element) {
+			let result = false;
+			const target = document.createElement("pre");
+			target.style.opacity = "0";
+			target.textContent = source.textContent;
+			document.body.appendChild(target);
+			try {
+				const range = document.createRange();
+				range.selectNode(target);
+				window.getSelection()!.removeAllRanges();
+				window.getSelection()!.addRange(range);
+				document.execCommand("copy");
+				window.getSelection()!.removeAllRanges();
+				result = true;
+			} catch (e) {
+				console.log("copy failed.");
+			}
+			document.body.removeChild(target);
+			return result;
+		}
+
+		function initButton(pre: Element) {
+			const code = pre.querySelector("code");
+			if (code) {
+				const language = pre.getAttribute("data-language");
+				pre.setAttribute("style", "overflow-x: auto");
+				const preParent = pre.parentElement;
+				const newPreParent = document.createElement("div");
+				newPreParent.setAttribute("style", "position: relative");
+				preParent?.insertBefore(newPreParent, pre);
+				const copyBtn = document.createElement("div");
+				copyBtn.innerHTML = language ?? "copy";
+				copyBtn.className =
+					"absolute leading-2 top-1 right-2 text-on-background/40 hover:text-on-background/80 cursor-pointer";
+				// 鼠标悬停显示Copy文字
+				copyBtn.addEventListener("mouseover", () => {
+					copyBtn.innerHTML = "copy";
+				});
+				copyBtn.addEventListener("mouseout", () => {
+					copyBtn.innerHTML = language ?? "copy";
+				});
+				copyBtn.addEventListener("click", () => {
+					copyBtn.innerHTML = copyTextContent(code)
+						? "success"
+						: "failure";
+					setTimeout(() => (copyBtn.innerHTML = "copy"), 500);
+				});
+
+				newPreParent.appendChild(copyBtn);
+				newPreParent.appendChild(pre);
+			}
+		}
+		const pres = document.querySelectorAll("pre");
+		if (pres.length > 0) {
+			pres.forEach((pre) => initButton(pre));
+		}
+	}
+</script>

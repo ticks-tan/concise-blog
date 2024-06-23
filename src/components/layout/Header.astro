@@ -1,0 +1,53 @@
+---
+import { siteConfig, navConfig } from "~/site.config";
+import { cn } from "~/utils/tailwind";
+---
+
+<nav class="w-full h-16 flex justify-between border-b">
+	<!-- 标题 -->
+	<div class="flex items-center">
+		<a href="/" class="text-2xl font-bold">{siteConfig.title}</a>
+	</div>
+	<!-- 导航链接 -->
+	<div class="flex items-center">
+		<ul class="flex">
+			{
+				navConfig.items.map((item) => (
+					<li class="ml-4">
+						<a
+							href={item.href}
+							class="text-lg hover:text-primary hover:underline text-on-background/80"
+						>
+							{item.label}
+						</a>
+					</li>
+				))
+			}
+			<!-- 主题切换 -->
+			<li class="ml-4">
+				<button
+					id="ToggleThemeButton"
+					class="text-lg hover:text-primary hover:underline text-on-background/80"
+				>
+					<span class="dark:hidden">白天</span>
+					<span class="hidden dark:block">黑夜</span>
+				</button>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<script>
+	function getCurrentTheme() {
+		return localStorage.getItem("theme") || "light";
+	}
+
+	const toggleThemeButton = document.getElementById("ToggleThemeButton");
+	toggleThemeButton?.addEventListener("click", () => {
+		console.log("toggle theme");
+		const toggleThemeEvent = new CustomEvent("theme-change", {
+			detail: { theme: getCurrentTheme() === "light" ? "dark" : "light" },
+		});
+		document.dispatchEvent(toggleThemeEvent);
+	});
+</script>

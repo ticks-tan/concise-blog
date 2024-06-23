@@ -1,0 +1,14 @@
+---
+import PageLayout from "~/layouts/BaseLayout.astro";
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+---
+
+<PageLayout meta={{ title: "404" }}>
+	<Header />
+	<main class="w-full flex flex-col justify-center">
+		<div class="h-16"></div>
+		<p class="text-center px-4 text-2xl">{"404 Not Found"}</p>
+	</main>
+	<Footer />
+</PageLayout>

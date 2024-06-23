@@ -1,0 +1,31 @@
+---
+import type { TocItem } from "~/utils/toc";
+import { cn } from "~/utils/tailwind";
+
+interface Props {
+	heading: TocItem;
+}
+
+const {
+	heading: { depth, slug, subheadings, text },
+} = Astro.props;
+---
+
+<li class={cn(depth > 1 ? "ms-4" : "")}>
+	<a
+		aria-label={`Link to heading: ${text}`}
+		class={cn(
+			"block line-clamp-1 text-on-background/75 translate-all hover:text-on-background"
+		)}
+		href={`#${slug}`}>{text}</a
+	>
+	{
+		subheadings.length > 0 && (
+			<ul>
+				{subheadings.map((subheading) => (
+					<Astro.self heading={subheading} />
+				))}
+			</ul>
+		)
+	}
+</li>

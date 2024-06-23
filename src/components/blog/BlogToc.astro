@@ -1,0 +1,27 @@
+---
+import type { MarkdownHeading } from "astro";
+import { generateMarkdownToc } from "~/utils/toc";
+import { cn } from "~/utils/tailwind";
+import BlogTocItem from "~/components/blog/BlogTocItem.astro";
+
+interface Props {
+	headings: MarkdownHeading[];
+	className?: string;
+}
+
+const { headings, className } = Astro.props;
+
+const toc = generateMarkdownToc(headings);
+---
+
+<aside
+	class={cn(
+		"sticky top-20 order-1 hidden lg:flex lg:flex-col border-s-4 ps-2",
+		className
+	)}
+>
+	<h1 class="font-semibold">{"Table Of Content"}</h1>
+	<ul class="text-on-surface">
+		{toc.map((heading) => <BlogTocItem heading={heading} />)}
+	</ul>
+</aside>

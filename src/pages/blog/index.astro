@@ -1,0 +1,44 @@
+---
+export const prerender = true;
+
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+import PageLayout from "~/layouts/BaseLayout.astro";
+import FormattedTime from "~/components/FormattedTime.astro";
+import { getBlogCollectionGroupByYear } from "~/utils/content";
+
+const allGroupBlogs = await getBlogCollectionGroupByYear();
+---
+
+<PageLayout meta={{ title: "TimeLine" }}>
+	<Header />
+	<main class="w-full flex flex-col mt-8 gap-y-10">
+		{
+			allGroupBlogs.map((group) => (
+				<section class="w-full">
+					<h2 class="text-2xl font-bold">{group.year}</h2>
+					<ul class="mt-4">
+						{group.blogs.map((blog) => (
+							<li class="flex justify-between px-4 md:px-8 mt-2">
+								<a
+									href={`/blog/${blog.slug}`}
+									class="hover:underline text-lg"
+									data-astro-prefetch
+								>
+									{blog.data.title}
+								</a>
+								<a
+									href={`/blog/${blog.slug}`}
+									data-astro-prefetch
+								>
+									<FormattedTime date={blog.data.date} />
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			))
+		}
+	</main>
+	<Footer />
+</PageLayout>

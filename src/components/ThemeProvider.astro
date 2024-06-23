@@ -1,0 +1,29 @@
+<script is:inline>
+    const isDarkPref = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function getLocalTheme() {
+        const savedTheme = localStorage.getItem("theme") ?? undefined;
+        return savedTheme || (isDarkPref.matches ? "dark" : "light");
+    }
+
+    function setTheme(theme) {
+        if (theme !== "light" && theme !== "dark") {
+            return console.warn(`Invalid theme value : ${theme}, use 'light' or 'dark'!`);
+        }
+        localStorage.setItem("theme", theme);
+        if (theme === "dark" && document.documentElement.classList.contains("dark")) {
+            return;
+        } else if (theme === "light" && !document.documentElement.classList.contains("dark")) {
+            return;
+        }
+        document.documentElement.classList.toggle("dark");
+    }
+
+    setTheme(getLocalTheme())
+
+    document.addEventListener('astro:after-swap', () => setTheme(getLocalTheme()));
+
+    document.addEventListener('theme-change', (e) => setTheme(e.detail.theme));
+
+    isDarkPref.addEventListener('change', (e) => setTheme(e.matches ? 'dark' : 'light'));
+</script>

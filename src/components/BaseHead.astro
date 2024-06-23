@@ -1,0 +1,30 @@
+---
+import { siteConfig } from "~/site.config";
+import type { SiteMeta } from "~/types";
+
+type Props = SiteMeta;
+
+const { title, description } = Astro.props;
+
+const siteTitle = `${title} - ${siteConfig.title}`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+---
+<head>
+    <!-- Global Meta -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta content='IE=edge' http-equiv='X-UA-Compatible' />
+    <meta name="generator" content={Astro.generator}/>
+    <link rel="icon" type="image/svg+xml" href={siteConfig.favicon}/>
+    <link rel='canonical' href={canonicalURL} />
+
+    <title>{siteTitle}</title>
+
+    <!-- SiteInfo Meta -->
+    <meta name="title" content={siteTitle}/>
+    <meta name="description" content={description}/>
+    <meta name="author" content={siteConfig.author}/>
+
+    <link rel="sitemap" href="/sitemap-index.xml"/>
+    <link href='/rss.xml' rel='alternate' title={siteConfig.title} type='application/rss+xml' />
+</head>
