@@ -10,15 +10,20 @@ A Astro blog theme, just fast and concise.
 
 -   [x] Support light/dark mode.
 -   [x] Quick depoly.
--   [x] Support Sitemap and Rss
+-   [x] Support sitemap and rss
+-   [x] SEO friendly.
 -   [ ] Support i18n.
--   [ ] SEO friendly.
 -   [ ] Support search function.
--   ...
+
+...
 
 ## How to depoly
 
 ### Vercel
+
+...
+
+### Github
 
 ...
 

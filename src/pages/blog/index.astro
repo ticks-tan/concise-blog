@@ -12,11 +12,12 @@ const allGroupBlogs = await getBlogCollectionGroupByYear();
 
 <PageLayout meta={{ title: "TimeLine" }}>
 	<Header />
-	<main class="w-full flex flex-col mt-8 gap-y-10">
+	<main class="w-full flex flex-col gap-y-4">
+		<h2 class="text-2xl mt-8 font-bold">{"All blogs"}</h2>
 		{
 			allGroupBlogs.map((group) => (
-				<section class="w-full">
-					<h2 class="text-2xl font-bold">{group.year}</h2>
+				<section class="w-full mt-4">
+					<h2 class="text-xl font-semibold">{group.year}</h2>
 					<ul class="mt-4">
 						{group.blogs.map((blog) => (
 							<li class="flex justify-between px-4 md:px-8 mt-2">

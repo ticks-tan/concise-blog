@@ -1,7 +1,7 @@
 import type { SiteConfig, NavConfig } from "~/types";
 
 export const siteConfig: SiteConfig = {
-	title: "My Blog",
+	title: "Astro Concise",
 	description: "my blog websiye",
 	author: "Ticks",
 	favicon: "/favicon.svg",
@@ -11,11 +11,11 @@ export const siteConfig: SiteConfig = {
 export const navConfig: NavConfig = {
 	items: [
 		{
-			label: "搜索",
+			label: "Search",
 			href: "/search",
 		},
 		{
-			label: "关于",
+			label: "About",
 			href: "/about",
 		},
 	],

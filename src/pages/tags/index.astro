@@ -1,0 +1,40 @@
+---
+import PageLayout from "~/layouts/BaseLayout.astro";
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+import { getBlogCollection, getAllBlogTagsMapCount } from "~/utils/content";
+
+const allBlogs = await getBlogCollection();
+const allTags = await getAllBlogTagsMapCount(allBlogs);
+
+const meta = {
+	title: "All Tags",
+	description: "List of all tags used in the blog posts.",
+};
+---
+
+<PageLayout meta={meta}>
+	<Header />
+	<main class="w-full">
+		<h1 class="my-4 text-2xl font-bold">{"Tags"}</h1>
+		{allTags.length === 0 && <p>{""}</p>}
+
+		{
+			allTags.length > 0 && (
+				<div class="flex flex-wrap gap-x-2 gap-y-4">
+					{allTags.map(([tag, count]) => (
+						<div class="flex items-center justify-center px-2 py-1 rounded-full bg-secondary-container hover:bg-secondary-container/75 leading-8">
+							<a
+								href={`/tags/${tag}/`}
+								class="inline-block text-on-secondary-container"
+							>
+								{`${tag} (${count})`}
+							</a>
+						</div>
+					))}
+				</div>
+			)
+		}
+	</main>
+	<Footer />
+</PageLayout>

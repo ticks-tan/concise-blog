@@ -53,3 +53,20 @@ export async function getBlogCollectionGroupByYear() {
 	sortGroupByYear.sort((a, b) => b.year - a.year);
 	return sortGroupByYear;
 }
+
+// 获取所有博客标签
+export function getAllBlogTags(blogs: Array<CollectionEntry<"blog">>) {
+	return blogs.flatMap((blog) => [...(blog.data.tags ?? ["default"])]);
+}
+
+// 获取所有标签对于文章数目
+export function getAllBlogTagsMapCount(
+	blogs: Array<CollectionEntry<"blog">>
+): Array<[string, number]> {
+	return [
+		...getAllBlogTags(blogs).reduce(
+			(map, tag) => map.set(tag, (map.get(tag) || 0) + 1),
+			new Map<string, number>()
+		),
+	].sort((a, b) => b[1] - a[1]);
+}

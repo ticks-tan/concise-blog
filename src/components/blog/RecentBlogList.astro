@@ -21,7 +21,8 @@ const { blogs, className } = Astro.props;
 				)}
 			>
 				<a
-					class="text-lg hover:text-primary"
+					aria-label={blog.data.title}
+					class="text-lg hover:text-primary line-clamp-1"
 					href={"/blog/" + blog.slug}
 				>
 					{blog.data.title}

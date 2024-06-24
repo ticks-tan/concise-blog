@@ -5,6 +5,7 @@ export type SiteConfig = {
 	author: string;
 	favicon: string;
 	siteYear: number;
+	proseStyle?: string;
 };
 
 // 导航配置

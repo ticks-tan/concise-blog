@@ -1,0 +1,65 @@
+---
+export const prerender = true;
+
+import type { GetStaticPaths } from "astro";
+import { getBlogCollection, getAllBlogTags } from "~/utils/content";
+import PageLayout from "~/layouts/BaseLayout.astro";
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+import FormattedTime from "~/components/FormattedTime.astro";
+
+export const getStaticPaths = (async () => {
+	const allBlogs = await getBlogCollection();
+	const uniqueAllTags = [...new Set(getAllBlogTags(allBlogs))];
+	return uniqueAllTags.flatMap((tag) => {
+		const filterBlogs = allBlogs.filter((blog) =>
+			blog.data.tags?.includes(tag)
+		);
+		return {
+			params: { tag },
+			props: { blogs: filterBlogs },
+		};
+	});
+}) satisfies GetStaticPaths;
+
+const { blogs } = Astro.props;
+const { tag } = Astro.params;
+
+const meta = {
+	title: "Tag - " + tag,
+	description: "All blogs with tag: " + tag,
+};
+---
+
+<PageLayout meta={meta}>
+	<Header />
+	<main class="w-full">
+		<h2 class="text-2xl mt-4">
+			{"All blogs with tag: "}<span class="text-primary text-2xl"
+				>{`#${tag}`}</span
+			>
+		</h2>
+		<ul class="mt-8">
+			{
+				blogs.map((blog) => (
+					<li class="list-disc list-item">
+						<div class="flex justify-between items-center pe-4 md:pe-8 mt-2">
+							<a
+								aria-label={blog.data.title}
+								href={`/blog/${blog.slug}`}
+								class="hover:underline text-lg line-clamp-1"
+								data-astro-prefetch
+							>
+								{blog.data.title}
+							</a>
+							<a href={`/blog/${blog.slug}`} data-astro-prefetch>
+								<FormattedTime date={blog.data.date} />
+							</a>
+						</div>
+					</li>
+				))
+			}
+		</ul>
+	</main>
+	<Footer />
+</PageLayout>

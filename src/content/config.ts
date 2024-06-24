@@ -15,7 +15,7 @@ const blog = defineCollection({
 		date: z.date(),
 		tags: z
 			.array(z.string())
-			.default([])
+			.default(["default"])
 			.transform(removeDupsAndLowerCase)
 			.nullable(),
 		draft: z.boolean().default(false).nullable(),
