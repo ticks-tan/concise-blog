@@ -2,8 +2,9 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
-
 import { remarkReadingTime } from "./src/plugins/RemarkReadingTime";
+
+import vercel from "@astrojs/vercel/static";
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,4 +23,5 @@ export default defineConfig({
 		},
 		remarkPlugins: [remarkReadingTime],
 	},
+	adapter: vercel(),
 });
