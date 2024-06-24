@@ -1,0 +1,36 @@
+---
+import PageLayout from "~/layouts/BaseLayout.astro";
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+import SearchSection from "~/components/blog/Search.astro";
+import { getBlogCollection } from "~/utils/content";
+
+const dataList = (await getBlogCollection()).flatMap((blog) => {
+	type RetType = {
+		title: string;
+		date: Date;
+		slug: string;
+		tags: string[];
+	};
+	return {
+		title: blog.data.title,
+		slug: blog.slug,
+		date: blog.data.date,
+		tags: blog.data.tags,
+	} as RetType;
+});
+
+const meta = {
+	title: "Search",
+	description: "Search Blogs.",
+};
+---
+
+<PageLayout meta={meta}>
+	<Header />
+	<main class="w-full">
+		<h1 class="text-2xl font-bold my-4">Search Blogs</h1>
+		<SearchSection dataList={dataList} />
+	</main>
+	<Footer />
+</PageLayout>

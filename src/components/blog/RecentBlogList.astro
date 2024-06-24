@@ -3,10 +3,10 @@ import type { CollectionEntry } from "astro:content";
 import FormattedTime from "~/components/FormattedTime.astro";
 import { cn } from "~/utils/tailwind";
 
-type Props = {
+interface Props {
 	blogs: Array<CollectionEntry<"blog">>;
 	className?: string;
-};
+}
 
 const { blogs, className } = Astro.props;
 ---

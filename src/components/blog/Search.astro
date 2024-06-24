@@ -1,0 +1,26 @@
+---
+interface Props {
+	dataList: {
+		title: string;
+		date: Date;
+		slug: string;
+		tags: string[];
+	}[];
+}
+
+const { dataList } = Astro.props;
+---
+
+<div>
+	<label class="relative block">
+		<input
+			id="search-input"
+			class="block w-full rounded-md border bg-background text-on-background py-3 pl-10 pr-3 placeholder:italic placeholder:text-opacity-75 focus:outline-none focus:border-2"
+			placeholder={"Search the blogs ..."}
+			type="text"
+			name="search"
+			autofocus
+		/>
+	</label>
+	<p class="mt-4">{"Todo ..."}</p>
+</div>

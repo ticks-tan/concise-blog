@@ -2,9 +2,9 @@
 import { cn } from "~/utils/tailwind";
 import { siteConfig } from "~/site.config";
 
-type Props = {
+interface Props {
 	className?: string;
-};
+}
 
 const { className } = Astro.props;
 const nowYear = new Date().getFullYear();

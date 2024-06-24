@@ -80,13 +80,12 @@ const proseStyle =
 			<!-- 返回顶部按钮 -->
 			<button
 				aria-label="Back to Top"
-				class="z-90 fixed bottom-8 end-4 flex h-8 w-8 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-primary-foreground text-3xl opacity-0 transition-all duration-300 hover:border-border/75 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
+				class="z-40 fixed bottom-8 end-4 flex h-8 w-8 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-secondary-container text-3xl opacity-0 transition-all duration-300 hover:border-border/75 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
 				data-show="false"
-				id="to-top-btn"
+				id="ScrollTopBtn"
 				><svg
 					aria-hidden="true"
-					class="h-4 w-4"
-					fill="none"
+					class="h-4 w-4 fill-on-secondary-container"
 					focusable="false"
 					stroke="currentColor"
 					stroke-width="2"
@@ -103,3 +102,24 @@ const proseStyle =
 	</div>
 	<Footer />
 </PageLayout>
+
+<script>
+	const scrollBtn = document.getElementById(
+		"ScrollTopBtn"
+	) as HTMLButtonElement;
+	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
+
+	function callback(entries: IntersectionObserverEntry[]) {
+		entries.forEach((entry) => {
+			// only show the scroll to top button when the heading is out of view
+			scrollBtn.dataset.show = (!entry.isIntersecting).toString();
+		});
+	}
+
+	scrollBtn.addEventListener("click", () => {
+		document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
+	});
+
+	const observer = new IntersectionObserver(callback);
+	observer.observe(targetHeader);
+</script>

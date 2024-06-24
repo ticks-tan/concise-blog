@@ -1,0 +1,39 @@
+---
+import PageLayout from "~/layouts/BaseLayout.astro";
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+import { siteConfig } from "~/site.config";
+import { cn } from "~/utils/tailwind";
+
+let mdContent = await Astro.glob("./content.md");
+let { Content } = mdContent[0];
+
+const proseStyle =
+	siteConfig.proseStyle && siteConfig.proseStyle.length > 0
+		? siteConfig.proseStyle!
+		: null;
+
+const meta = {
+	title: "About",
+	description: "About page",
+};
+---
+
+<PageLayout meta={meta}>
+	<Header />
+	<main class="w-full">
+		<article
+			class={cn(
+				proseStyle ??
+					cn(
+						"prose prose-base prose-neutral md:prose-lg dark:prose-invert",
+						"prose-headings:font-medium prose-headings:text-foreground prose-headings:before:absolute prose-headings:before:-ms-4"
+					),
+				"mt-8 text-on-background"
+			)}
+		>
+			{(<Content />)}
+		</article>
+	</main>
+	<Footer />
+</PageLayout>

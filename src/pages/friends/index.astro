@@ -1,0 +1,19 @@
+---
+import PageLayout from "~/layouts/BaseLayout.astro";
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+
+const meta = {
+	title: "Friends",
+	description: "All the friends of this site",
+};
+---
+
+<PageLayout meta={meta}>
+	<Header />
+	<main class="w-full">
+		<h1 class="text-2xl font-bold my-4">{"All Friends"}</h1>
+		<p>{"Todo ..."}</p>
+	</main>
+	<Footer />
+</PageLayout>
